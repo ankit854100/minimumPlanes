@@ -1,33 +1,48 @@
-function minimumNumberOfPlanes(arr) {
-    const n = arr.length;
-    let currAirport = 0;
-    let totalPlanes = 0;
+function minimum_planes(arr){
+    n = arr.length
+    numOfPlanes = 1
+    fuel = arr[0];
+    curr_index = 0;
     
-    while (currAirport < n - 1) {
-      let maxFuel = 0;
-      let nextAirport = 0;
-      for (let i = currAirport + 1; i <= Math.min(currAirport + arr[currAirport], n - 1); i++) {
-        if (arr[i] > maxFuel) {
-          maxFuel = arr[i];
-          nextAirport = i;
-        }
+    if(n == 1)
+    	return 0;
+     
+    if(arr[0] == 0 && n > 1)
+    	return -1;
+    
+    for(let i = 0; i < n; i++){
+    	let maxDistance = curr_index + fuel;
+      for(j = curr_index + 1; j <= maxDistance; j++){
+      	fuel--;
+        let distRemaining = n - j - 1;
+        if(j >= n - 1)
+        	return numOfPlanes;
+          
+         if(arr[j] > fuel && distRemaining > fuel){
+         	fuel = arr[j];
+          numOfPlanes++;
+          curr_index = j;
+          break;
+         }
+         
+         if(fuel <= 0)
+         	return -1;
       }
-      if (nextAirport === 0) {
-        return -1;
-      }
-      currAirport = nextAirport;
-      totalPlanes++;
+      
+      if(j >= n - 1)
+      	return numOfPlanes;
+        
+      if(fuel <= 0)
+      	return -1;
     }
-    
-    return totalPlanes;
-  }
-  
-  
-  
-  
-  const arr1 = [2, 1, 2, 3, 1];
-  console.log(minimumNumberOfPlanes(arr1)); // Output: 2
-  
-  const arr2 = [1, 6, 3, 4, 5, 0, 0, 0, 6];
-  console.log(minimumNumberOfPlanes(arr2)); // Output: 3
-  
+}
+
+
+let arr1=  [2,1,2,3,1];
+let arr2 =  [1,6,3,4,5,0,0,0,6];
+let arr3 = [4, 5, 1];
+
+
+console.log(minimum_planes(arr1));
+console.log(minimum_planes(arr2));
+console.log(minimum_planes(arr3));
